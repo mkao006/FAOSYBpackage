@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}
+\contentsline {subsection}{\numberline {1.1}Obtain example data}{1}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Color and theme of the FAO Statistical Yearbook}{1}{subsection.1.2}
+\contentsline {section}{\numberline {2}Pre-defined plot}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Single indicator}{3}{subsection.2.1}
+\contentsline {subsubsection}{Bar graph}{3}{section*.2}
+\contentsline {subsubsection}{Line graph}{5}{section*.3}
+\contentsline {subsubsection}{Top and bottom bar}{6}{section*.4}
+\contentsline {subsection}{\numberline {2.2}Multiple indicator}{7}{subsection.2.2}
+\contentsline {subsubsection}{Scatter plot}{7}{section*.5}
+\contentsline {subsubsection}{Stacked bar graph}{8}{section*.6}
+\contentsline {subsubsection}{Side-by-side bar graph}{9}{section*.7}
+\contentsline {subsubsection}{Area graph}{10}{section*.8}
+\contentsline {subsection}{\numberline {2.3}Maps}{11}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Diagnostic graph}{12}{subsection.2.4}

@@ -1,0 +1,25 @@
+Package: FAOSYB
+Type: Package
+Title: The graphic library of the Statistical Year Book of the Food and
+    Agriculture Organization of the United Nation.
+Version: 1.0
+Date: 2013-02-13
+Author: Michael C. J. Kao <michael.kao@fao.org>
+Maintainer: Michael C. J. Kao <michael.kao@fao.org>
+Description: The package comprise functions for the plots used in the FAO
+    statistical Yearbook.
+License: GPL (>= 2)
+Depends:
+    ggplot2 (>= 0.8.9),
+    plyr (>= 1.7.1),
+    RColorBrewer (>= 1.0-5),
+    reshape2 (>= 1.2.1),
+    maptools (>= 0.8-16),
+    classInt (>= 0.1-18),
+    rgdal (>= 0.7-19),
+    sp (>= 1.0-1),
+    gpclib(>= 1.5-1),
+    labeling (>= 0.1),
+    FAOSTAT (>= 1.0)
+LazyData: yes
+ZipData: no

@@ -1,0 +1,13 @@
+\name{map_breaks}
+\alias{map_breaks}
+\title{Function to create the discrete interval}
+\usage{
+  map_breaks(value, n, style = "jenks")
+}
+\description{
+  This only a wrapper function to round the numbers in the
+  middle. The classIntervals function is highly
+  recommended. We only wrote this because for reporting
+  purposes.
+}
+

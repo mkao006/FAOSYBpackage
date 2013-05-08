@@ -1,0 +1,19 @@
+* installing *source* package 'FAOSYB' ...
+** R
+** data
+**  moving datasets to lazyload DB
+** inst
+** preparing package for lazy loading
+Warning: package 'e1071' was built under R version 2.15.3
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   'FAOSYB.Rnw' 
+** testing if installed package can be loaded
+*** arch - i386
+Warning: package 'e1071' was built under R version 2.15.3
+*** arch - x64
+Warning: package 'e1071' was built under R version 2.15.3
+
+* DONE (FAOSYB)

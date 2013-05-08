@@ -1,0 +1,369 @@
+\documentclass{article}
+\usepackage{url}
+\usepackage[sc]{mathpazo}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{breakurl}
+\usepackage{hyperref}
+
+\begin{document}
+
+
+\title{\bf Graphic manual for the \\FAO Statistical Year Book: Package
+  FAOSYB}
+
+\author{Michael C. J. Kao\\ Food and Agriculture Organization \\ of
+  the United Nations}
+
+\date{}
+
+\maketitle
+\tableofcontents
+
+%% Change multi-stack-line to multi-area
+
+<<setup, include=FALSE, cache=FALSE>>=
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center',
+               fig.show='hold', warning=FALSE, message=FALSE, warning=FALSE,
+               eval=TRUE, echo=TRUE, results='hide', tidy=FALSE)
+options(replace.assign=TRUE,width=80)
+@
+
+\section{Introduction}
+This manual demonstrate the statndardised plot dictionary available to
+users used by the FAO statistical year book
+
+
+<<Load-libraries, echo=1>>=
+library(FAOSYB)
+all.df = dget("allData")
+all.df = merge(all.df, FAOregionProfile[, c("UN_CODE", "UNSD_MACRO_REG")],
+               all.x = TRUE)
+
+@
+
+\subsection{Obtain example data}
+The data can be obtained by running the examples in the other manual
+to ensure consistence. Let us load the theme and color of the
+statistical year book.
+
+
+\subsection{Color and theme of the FAO Statistical Yearbook}
+The theme of \textbf{ggplot2} package used in the yearbook can be
+loaded by calling the \textit{theme\_syb} function which has
+pre-defined settings.
+
+<<load-themes>>=
+theme_syb()
+@
+
+The main color which underly each section of the book, these colors
+can be called from the \textit{plot\_colors} function under the list
+\textit{main}.
+
+<<main-color, echo=FALSE,  fig.height=2.5, out.height='5cm'>>=
+mainTheme.df = data.frame(Part = c(rep("Part 1", 3), rep("Part 2", 3),
+                          rep("Part 3", 3), rep("Part 4", 3)),
+    Val = rep(1, 12),
+    Colors = c(plot_colors(1, 1)$Main, plot_colors(2, 1)$Main,
+        plot_colors(3, 1)$Main, plot_colors(4, 1)$Main),
+    stringsAsFactors = FALSE)
+mainTheme.df$Part = factor(mainTheme.df$Part,
+    levels = rev(unique(mainTheme.df$Part)))
+mainTheme.df$Colors = factor(mainTheme.df$Colors,
+    levels = rev(mainTheme.df$Colors))
+
+ggplot(data = mainTheme.df, aes(x = Part, y = Val)) +
+    geom_bar(aes(fill = Colors)) +
+    scale_fill_manual(values = rev(as.character(mainTheme.df$Colors))) +
+    theme(legend.position = "none", axis.ticks.x = element_blank(),
+          axis.text.x = element_blank()) +
+    coord_flip() + xlab(NULL) + ylab(NULL)
+@
+
+These are the colors used mainly to generate the plots, and they are
+chosen to be color blind proof. These colors can be obtained also from
+the \textit{plot\_colors} function under the \textit{Sub} list where the
+number of colors \textit{n} need to be specified.
+
+<<sub-color, echo=FALSE>>=
+plot.new()
+plot.window(xlim = c(0, 14), ylim = c(0, 12))
+for(i in 1:12){
+    points(1:i + 7.5 - i * 0.5, rep(12 - i, i),
+           col = plot_colors(1, i)$Sub, pch = 19, cex = 5)
+    text(0, 12 - i, paste("n = ", i, sep = ""))
+}
+
+@
+
+
+\section{Pre-defined plot}
+
+\subsection{Single indicator}
+The use of the graph is very simple, the four key components required
+are the \textit{x}, \textit{y}, \textit{group} and the
+\textit{type}. The x and y corresponds to the \textit{x} and
+\textit{y} of \textbf{ggplot} and the \textit{group} factor determines
+the color and finally the type is the pre-defined plot in the
+\textit{plot\_dictionary}.
+
+
+\subsubsection{Bar graph}
+Now let us explore the data, the first graph available is the simple
+bar chart. In this chart we have plotted the total population by
+region, and it is clear that Asia has a much greater population and
+Oceania has the smallest population.
+
+<<univariate-bar1>>=
+plot_syb(x = "OFFICIAL_FAO_NAME", y = "SP.POP.TOTL",
+         subset = Year == 2005 & Area == "Region",
+         group = "OFFICIAL_FAO_NAME", type = "reg_uni_bar", data = all.df,
+         col_pallete = plot_colors(n = 5)$Sub)
+
+@
+
+
+
+<<univariate-bar2>>=
+plot_syb(x = "OFFICIAL_FAO_NAME", y = "SP.POP.TOTL",
+         group = "Year", type = "reg_uni_bar",
+         subset = Year %in% c(1990, 2000, 2010) & Area == "Region",
+         data = all.df, col = plot_colors(n = 3)$Sub,
+         legend_lab = c(1990, 2000, 2010))
+
+@
+
+This is a typical line graph.
+
+\subsubsection{Line graph}
+<<univariate-line>>=
+plot_syb(x = "Year", y = "SP.POP.TOTL", group = "OFFICIAL_FAO_NAME",
+         subset = Year %in% 1990:2010 & Area == "Region",
+         type = "reg_uni_line", data = all.df,
+         col_pallete = plot_colors(n = 5)$Sub)
+
+@
+
+\subsubsection{Top and bottom bar}
+<<top-bot-bar>>=
+plot_syb(x = "SP.POP.TOTL", y = "OFFICIAL_FAO_NAME",
+         subset = Year ==  2010 & Area == "Territory",
+         type = "top_bot_bar", data = all.df,
+         col_pallete = plot_colors(n = 2)$Sub)
+
+@
+
+
+
+\subsection{Multiple indicator}
+Multiple indicators are supported, and the \textit{y} can be a
+vector. The function will melt the data to form the standard
+\textit{data.frame} used by \textbf{ggplot}.
+
+\subsubsection{Scatter plot}
+
+<<scatter-plot>>=
+plot_syb(x = "SL.AGR.EMPL.MA.ZS", y = "NV.AGR.TOTL.ZS",
+         type = "scatter_plot", subset = Year == 2005 & Area == "Territory",
+         group = "UNSD_MACRO_REG", data = all.df,
+         col_pallete = plot_colors(n = 5)$Sub) +
+    geom_smooth(method = "lm")
+
+
+@
+
+
+
+
+\subsubsection{Stacked bar graph}
+<<multivariate-stack-bar>>=
+plot_syb(x = "OFFICIAL_FAO_NAME",
+         y = c("SP.POP.0014.TO.ZS", "SP.POP.1564.TO.ZS", "SP.POP.65UP.TO.ZS"),
+         group = NULL, type = "multi_stack_bar", data = all.df,
+         subset = Year == 2000 & Area == "Region",
+         col_pallete = plot_colors(n = 3)$Sub,
+         legend_lab = c("0 ~ 14", "15 ~ 64", "65+"))
+
+@
+
+\subsubsection{Side-by-side bar graph}
+
+<<multivariate-dodge-bar>>=
+plot_syb(x = "OFFICIAL_FAO_NAME",
+         y = c("SP.POP.0014.TO.ZS", "SP.POP.1564.TO.ZS", "SP.POP.65UP.TO.ZS"),
+         group = NULL, type = "multi_dodge_bar", data = all.df,
+         subset = Year == 2000 & Area == "Region",
+         col_pallete = plot_colors(n = 3)$Sub,
+         legend_lab = c("0 ~ 14", "15 ~ 64", "65+"))
+@
+
+\subsubsection{Area graph}
+<<multivariate-stack-line>>=
+## Need to find a way to show the year points like the line graph
+plot_syb(x = "Year",
+         y = c("SP.POP.0014.TO.ZS", "SP.POP.1564.TO.ZS", "SP.POP.65UP.TO.ZS"),
+         group = NULL, type = "multi_stack_line",
+         data = all.df, subset = Year %in% 2000:2010 &
+             OFFICIAL_FAO_NAME == "Europe",
+         col_pallete = plot_colors(n = 3)$Sub,
+         legend_lab = c("0 ~ 14", "15 ~ 64", "65+"))
+
+@
+
+\subsection{Maps}
+<<maps, fig.width=12, fig.height=7>>=
+if(!isTRUE(gpclibPermitStatus()))
+    gpclibPermit()
+map.df = translateCountryCode(data = all.df[all.df$Area == "Territory", ],
+    from = "UN_CODE", to = "FAOST_CODE")
+plot_map(var = "SP.POP.TOTL", data = map.df,
+         countryCode = "FAOST_CODE",
+         subset = Year == 2010 & Area == "Territory")
+
+@
+
+%% Need to wrap the European map
+<<eval=FALSE, echo=FALSE, tidy=FALSE, fig.width=14, fig.height=7>>=
+plot_map(shpFile = shpLocation, var = "SP.POP.TOTL", data = map.df,
+         countryCode = "FAOST_CODE",
+         subset = Year == 2010 & Area == "Territory" &
+         UNSD_MACRO_REG == "Europe")
+
+@
+
+%% Need to find out why Sudan and some countries are missing
+<<eval=FALSE, echo=FALSE, tidy=FALSE, fig.width=7, fig.height=10>>=
+plot_map(shpFile = shpLocation, var = "SP.POP.TOTL", data = map.df,
+         countryCode = "FAOST_CODE",
+         subset = Year == 2010 & Area == "Territory" &
+         UNSD_MACRO_REG == "Africa")
+
+@
+
+%% Need to fix the American map
+<<eval=FALSE, echo=FALSE, tidy=FALSE, eval=FALSE>>=
+plot_map(shpFile = shpLocation, var = "SP.POP.TOTL", data = map.df,
+         countryCode = "FAOST_CODE",
+         subset = Year == 2010 & Area == "Territory" &
+         UNSD_MACRO_REG == "America")
+
+@
+
+%% Need to wrap the map
+<<eval=FALSE, echo=FALSE, tidy=FALSE, fig.width=14, fig.height=7>>=
+plot_map(shpFile = shpLocation, var = "SP.POP.TOTL", data = map.df,
+         countryCode = "FAOST_CODE",
+         subset = Year == 2010 & Area == "Territory" &
+         UNSD_MACRO_REG == "Oceania")
+
+@
+
+%% Asians are great!
+<<eval=FALSE, echo=FALSE, tidy=FALSE, fig.height=7, fig.width=10>>=
+plot_map(shpFile = shpLocation, var = "SP.POP.TOTL", data = map.df,
+         countryCode = "FAOST_CODE",
+         subset = Year == 2010 & Area == "Territory" &
+         UNSD_MACRO_REG == "Asia")
+
+@
+
+
+
+
+
+\subsection{Diagnostic graph}
+<<miss-pct>>=
+dataDensity(all.df[all.df$Year == 2008,
+               colnames(all.df)[!(colnames(all.df) %in%
+                                c("UN_CODE", "Year", "OFFICIAL_FAO_NAME",
+                                  "Area", "UNSD_MACRO_REGION"))]]) +
+    theme(axis.text.x = element_blank(),
+          axis.ticks.x = element_blank())
+
+
+@
+
+
+%% implement subset for sparsityHeatMap
+%% The following graph would only work on non-imputed data
+<<sparsity-heatmap, fig.width=14, fig.height=18, echo=FALSE, eval=FALSE>>=
+sparsityHeatMap(data = all.df[all.df$Area == "Territory", ],
+                country = "OFFICIAL_FAO_NAME", year = "Year",
+                var = "SL.EMP.TOTL")
+@
+
+<<sparsity-heatmap2, fig.width=14, fig.height=18>>=
+sparsityHeatMap(data = all.df[all.df$Area == "Territory", ],
+                country = "OFFICIAL_FAO_NAME", year = "Year",
+                var = "SP.POP.TOTL", group = "UNSD_MACRO_REG")
+
+@
+
+
+
+
+<<better-graphics, eval=FALSE, echo=FALSE>>=
+nd.df = all.df[all.df$Area == "Territory" & all.df$Year == 2010 & !is.na(all.df$SP.POP.TOTL), ]
+nd2.df = nd.df
+nd2.df$UNSD_MACRO_REG = "World"
+ndf.df = rbind(nd.df, nd2.df)
+
+ggplot(data = nd.df, aes(x = EN.POP.DNST)) +
+    geom_dotplot(aes(col = UNSD_MACRO_REG, fill = UNSD_MACRO_REG),
+                 binwidth = 500)
+
+
+
+ggplot(data = nd.df, aes(x = SP.POP.TOTL)) +
+    geom_histogram(aes(fill = UNSD_MACRO_REG))
+
+
+ggplot(data = nd.df, aes(x = EN.POP.DNST, fill = UNSD_MACRO_REG)) +
+       geom_density(alpha = 0.1) +
+    facet_wrap(~UNSD_MACRO_REG, scales = "free_y") +
+    scale_fill_manual(values = plot_colors(n=5)$Sub)
+
+
+ggplot(data = nd.df, aes(y = EN.POP.DNST, x = UNSD_MACRO_REG)) +
+    geom_jitter(aes(col = UNSD_MACRO_REG, size = SP.POP.TOTL)) +
+    scale_y_sqrt()
+
+
+ggplot(data = nd.df, aes(y = EN.POP.DNST, x = UNSD_MACRO_REG)) +
+    geom_boxplot(aes(col = UNSD_MACRO_REG, fill = UNSD_MACRO_REG)) +
+    geom_jitter() +
+    coord_cartesian(ylim = c(-10, 2000)) +
+    ## geom_jitter(aes(col = UNSD_MACRO_REG, size = SP.POP.TOTL)) +
+    geom_text(data = all.df[all.df$Area == "Region" & all.df$Year == 2010, ],
+              aes(x = OFFICIAL_FAO_NAME, y = EN.POP.DNST,
+                  label = EN.POP.DNST), size = 3) +
+    geom_abline(intercept = 40)
+
+
+
+ggplot(data = ndf.df, aes(y = EN.POP.DNST, x = UNSD_MACRO_REG)) +
+    geom_boxplot(aes(col = UNSD_MACRO_REG, fill = UNSD_MACRO_REG)) +
+    ## geom_jitter(aes(col = UNSD_MACRO_REG, size = SP.POP.TOTL)) +
+    scale_y_log10() +
+    scale_color_manual(values = plot_colors(n=6)$Sub) +
+    scale_fill_manual(values = plot_colors(n=6)$Sub)
+
+
+ggplot(data = ndf.df, aes(y = NV.AGR.TOTL.ZS, x = UNSD_MACRO_REG)) +
+    geom_boxplot(aes(col = UNSD_MACRO_REG, fill = UNSD_MACRO_REG)) +
+    ## geom_jitter(aes(col = UNSD_MACRO_REG, size = SP.POP.TOTL)) +
+    ## scale_y_log10() +
+    scale_color_manual(values = plot_colors(n=6)$Sub) +
+    scale_fill_manual(values = plot_colors(n=6)$Sub) +
+
+
+
+
+
+@
+
+
+\end{document}

@@ -1,0 +1,7 @@
+export(map_breaks)
+export(plot_colors)
+export(plot_data)
+export(plot_dictionary)
+export(plot_map)
+export(plot_syb)
+export(theme_syb)
