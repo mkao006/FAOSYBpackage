@@ -107,3 +107,7 @@ plot_map = function (shpFile, var, data, countryCode = "FAOST_CODE",
               legend.title = element_blank()) +
         xlab(NULL) + ylab(NULL)
 }
+
+
+utils::globalVariables(names = c("GAULspatialPolygon", "long", "lat", "group",
+                         "fillColor"))

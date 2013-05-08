@@ -2,8 +2,8 @@ Package: FAOSYB
 Type: Package
 Title: The graphic library of the Statistical Year Book of the Food and
     Agriculture Organization of the United Nation.
-Version: 1.0
-Date: 2013-02-13
+Version: 1.1
+Date: 2013-05-08
 Author: Michael C. J. Kao <michael.kao@fao.org>
 Maintainer: Michael C. J. Kao <michael.kao@fao.org>
 Description: The package comprise functions for the plots used in the FAO
