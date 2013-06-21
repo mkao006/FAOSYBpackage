@@ -99,6 +99,7 @@ plot_map = function (shpFile, var, data, countryCode = "FAOST_CODE",
         scale_fill_manual(labels = legendLab,
                           values = uCol,
                           breaks = uVal) +
+        coord_equal() +
         theme(legend.position = "top", legend.direction = "horizontal",
               panel.background = element_blank(),
               plot.background = element_blank(),

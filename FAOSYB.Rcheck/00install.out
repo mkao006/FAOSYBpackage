@@ -1,14 +1,13 @@
-* installing *source* package ‘FAOSYB’ ...
+* installing *source* package 'FAOSYB' ...
 ** R
 ** data
-**  moving datasets to lazyload DB
+*** moving datasets to lazyload DB
 ** inst
 ** preparing package for lazy loading
 ** help
 *** installing help indices
 ** building package indices
 ** installing vignettes
-   ‘FAOSYB.Rnw’ 
+   'FAOSYB.Rnw' 
 ** testing if installed package can be loaded
-
 * DONE (FAOSYB)
