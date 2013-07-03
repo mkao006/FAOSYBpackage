@@ -105,7 +105,8 @@ plot_map = function (shpFile, var, data, countryCode = "FAOST_CODE",
               plot.background = element_blank(),
               axis.text = element_blank(),
               axis.ticks = element_blank(),
-              legend.title = element_blank()) +
+              legend.title = element_blank(),
+              plot.margin = unit(c(0, 0, 0, 0), "lines")) +
         xlab(NULL) + ylab(NULL)
 }
 
