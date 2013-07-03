@@ -1,4 +1,0 @@
-%\VignetteIndexEntry{Graphic guide}
-\documentclass{article}
-\begin{document}
-\end{document}
