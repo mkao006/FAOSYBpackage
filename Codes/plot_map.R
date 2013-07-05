@@ -95,7 +95,7 @@ plot_map = function (shpFile, var, data, countryCode = "FAOST_CODE",
     ## Plot the map
     ggplot(data = final.df, aes(x = long, y = lat, group = group)) +
         geom_polygon(aes(fill = fillColor)) +
-        geom_path(color = "grey50") +
+        geom_path(color = "grey50", size = 0.001) +
         scale_fill_manual(labels = legendLab,
                           values = uCol,
                           breaks = uVal) +
