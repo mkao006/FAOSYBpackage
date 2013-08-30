@@ -46,10 +46,10 @@ plot_map = function (shpFile, var, data, countryCode = "FAOST_CODE",
   final.df = merge(sub_data, transformed.df, by.x = countryCode,
                    by.y = "id", all = TRUE)
   final.df = arrange(final.df, order)
-  final.df[is.na(final.df[, var]), "fillColor"] = "0"
+  final.df[is.na(final.df[, var]) & !final.df[, countryCode] %in% countryCodeTransp, "fillColor"] = "0"
   
   ## Match the colors and create the legend
-  if(any(is.na(final.df[, var]))){
+  if(any(is.na(final.df[, var]) & !final.df[, countryCode] %in% countryCodeTransp)){
     uVal = c(sort(unique(final.df$fillColor)))
     uCol = c(missCol, col[sort(as.numeric(unique(final.df$fillColor)))])
     uBrks = c(missLabel,
