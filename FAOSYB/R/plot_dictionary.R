@@ -110,21 +110,24 @@ plot_dictionary = function(x, y, group, type, data, x_lab, y_lab,
              geom_bar(aes_string(col = group, fill = group)) +
              scale_fill_manual(values = col_pallete) +
              scale_color_manual(values = col_pallete) +
-             coord_flip() + xlab(y_lab) + ylab(x_lab)
+             coord_flip() + xlab(y_lab) + ylab(x_lab) +
+             theme(axis.text.x = element_text(hjust=0.5))
          },
          "bot_20_bar" = {
            chart = ggplot(data = data, aes_string(x = y, y = x)) +
              geom_bar(aes_string(col = group, fill = group)) +
              scale_fill_manual(values = col_pallete) +
              scale_color_manual(values = col_pallete) +
-             coord_flip() + xlab(y_lab) + ylab(x_lab)
+             coord_flip() + xlab(y_lab) + ylab(x_lab) +
+             theme(axis.text.x = element_text(hjust=0.5))
          },
          "top_bot_bar" = {
            chart = ggplot(data = data, aes_string(x = y, y = x)) +
              geom_bar(aes_string(col = group, fill = group)) +
              scale_fill_manual(values = col_pallete) +
              scale_color_manual(values = col_pallete) +
-             coord_flip() + xlab(y_lab) + ylab(x_lab)
+             coord_flip() + xlab(y_lab) + ylab(x_lab) +
+             theme(axis.text.x = element_text(hjust=0.5))
          },
          "top_dot" = {
            chart = ggplot(data = data, aes_string(x = y, y = x)) +
@@ -132,7 +135,8 @@ plot_dictionary = function(x, y, group, type, data, x_lab, y_lab,
                         size = 3, alpha = 0.75) +
              scale_fill_manual(values = col_pallete) +
              scale_color_manual(values = col_pallete) +
-             coord_flip() + xlab(y_lab) + ylab(x_lab)
+             coord_flip() + xlab(y_lab) + ylab(x_lab) +
+             theme(axis.text.x = element_text(hjust=0.5))
            if (length(levels(data[, group])) == 1) {
              chart = chart + theme(legend.position = "none")
            }
@@ -143,7 +147,8 @@ plot_dictionary = function(x, y, group, type, data, x_lab, y_lab,
                         size = 3, alpha = 0.75) +
              scale_fill_manual(values = col_pallete) +
              scale_color_manual(values = col_pallete) +
-             coord_flip() + xlab(y_lab) + ylab(x_lab)
+             coord_flip() + xlab(y_lab) + ylab(x_lab) +
+             theme(axis.text.x = element_text(hjust=0.5))
            if (length(levels(data[, group])) == 1) {
              chart = chart + theme(legend.position = "none")
            }
@@ -154,7 +159,8 @@ plot_dictionary = function(x, y, group, type, data, x_lab, y_lab,
                         size = 3, alpha = 0.75) +
              scale_fill_manual(values = col_pallete) +
              scale_color_manual(values = col_pallete) +
-             coord_flip() + xlab(y_lab) + ylab(x_lab)
+             coord_flip() + xlab(y_lab) + ylab(x_lab) +
+             theme(axis.text.x = element_text(hjust=0.5))
            if (length(levels(data[, group])) == 1) {
              chart = chart + theme(legend.position = "none")
            }
