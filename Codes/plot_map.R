@@ -81,8 +81,10 @@ plot_map = function (shpFile, var, data, countryCode = "FAOST_CODE",
     nBrks = length(uBrks)
     endMar = rep(0, nBrks)
     endMar[3:(nBrks - 1)] = ifelse(uBrks[3:(nBrks - 1)] >= 10, 1, 0.01)
-    legendLab = paste(c(uBrks[-nBrks]), c("", rep(" ~ < ", nBrks - 3), " ~ "),
-                      c("", uBrks[3:nBrks]), sep = "")
+    legendLab = paste(c(uBrks[-nBrks]), c(rep(" ~ < ", nBrks - 2), " ~ "),
+                      c(uBrks[2:nBrks]), sep = "")    
+#     legendLab = paste(c(uBrks[-nBrks]), c("", rep(" ~ < ", nBrks - 3), " ~ "),
+#                       c("", uBrks[3:nBrks]), sep = "")
     ## ## Format the legend labels
     ## brkNames = formatC(uBrks, format = "fg")
     ## endVal = formatC(uBrks - endMar, format = "fg")
