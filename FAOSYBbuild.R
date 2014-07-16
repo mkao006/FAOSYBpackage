@@ -38,12 +38,16 @@ file.copy(from = "./DESCRIPTION", to = "FAOSYB/",
 roxygenize("FAOSYB")
 
 ## Include vignette
-dir.create("./FAOSYB/inst/doc/")
+dir.create("./FAOSYB/vignettes/")
 file.copy(from = "./Documentation/FAOSYB.pdf",
-          to = "./FAOSYB/inst/doc/", overwrite = TRUE)
+          to = "./FAOSYB/vignettes/", overwrite = TRUE)
+
+## dir.create("./FAOSYB/inst/doc/")
+## file.copy(from = "./Documentation/FAOSYB.pdf",
+##           to = "./FAOSYB/inst/doc/", overwrite = TRUE)
 
 ## Create the vignette hack
-cat("%\\VignetteIndexEntry{Graphic guide}\n\\documentclass{article}\n\\begin{document}\n\\end{document}", file = "./FAOSYB/inst/doc/FAOSYB.Rnw")
+## cat("%\\VignetteIndexEntry{Graphic guide}\n\\documentclass{article}\n\\begin{document}\n\\end{document}", file = "./FAOSYB/inst/doc/FAOSYB.Rnw")
 
 
 ## Build and check the package (Windows)

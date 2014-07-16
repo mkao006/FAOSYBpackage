@@ -20,16 +20,7 @@ Depends:
     sp (>= 1.0-1),
     gpclib(>= 1.5-1),
     labeling (>= 0.1),
-    FAOSTAT (>= 1.0)
+    FAOSTAT (>= 1.0),
+    grid (>= 3.0.2)
 LazyData: yes
 ZipData: no
-Collate:
-    'FAOSYB-package.R'
-    'GAULspatialPolygon.R'
-    'map_breaks.R'
-    'plot_color.R'
-    'plot_data.R'
-    'plot_dictionary.R'
-    'plot_map.R'
-    'plot_syb.R'
-    'theme_syb.R'
