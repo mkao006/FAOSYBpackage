@@ -42,7 +42,7 @@ plot_dictionary = function(x, y, group, type, data, x_lab, y_lab,
            chart =
              ggplot(data = data, aes_string(x = x, y = "value")) +
              geom_bar(aes_string(col = group, fill = group),
-                      position = "dodge") +
+                      position = "dodge", stat = "identity") +
              scale_fill_manual(labels = legend_lab,
                                values = col_pallete) +
              scale_color_manual(labels = legend_lab,
