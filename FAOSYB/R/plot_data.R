@@ -116,19 +116,22 @@ plot_data = function(x, y, group, subset, type, data,
            data[, x] = data[, x] * scale
            complete_data = na.omit(subset(data, subset = eval(subset),
                                           select = c(x, y, group)))
-           topbot_maxYear = subset(complete_data, 
+           new_data = subset(complete_data, 
                                    subset = complete_data[, group] == 
                                      max(complete_data[, group]))
-           topbot_maxYear = 
-             rbind(head(arrange(topbot_maxYear, 
-                                desc(topbot_maxYear[, x])), n = nCnty/2),
-                   tail(arrange(topbot_maxYear, 
-                                desc(topbot_maxYear[, x])), n = nCnty/2))
-           new_data = subset(complete_data, subset = complete_data[, y] %in% 
-                               topbot_maxYear[, y])
+           new_data = 
+             rbind(head(arrange(new_data, 
+                                desc(new_data[, x])), n = nCnty/2),
+                   tail(arrange(new_data, 
+                                desc(new_data[, x])), n = nCnty/2))
+           new_data$level = c(rep("Countries with\nhighest values",
+                                        nCnty/2), rep("Countries with\nlowest values", nCnty/2))     
+#            new_data = subset(complete_data, subset = complete_data[, y] %in% 
+#                                topbot_maxYear[, y])
            new_data[, y] = factor(new_data[, y],
-                                  levels = rev(topbot_maxYear[, y]))
-           new_data[, group] = factor(new_data[, group])
+                                  levels = rev(new_data[, y]))
+#            new_data[, group] = factor(new_data[, group])
+           assign("group", "level", envir = env)
          },
          "manual" = {
            new_data = data
