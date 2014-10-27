@@ -130,13 +130,27 @@ plot_dictionary = function(x, y, group, type, data, x_lab, y_lab,
              theme(axis.text.x = element_text(hjust=0.5))
          },
          "top_dot" = {
-           chart = ggplot(data = data, aes_string(x = y, y = x)) +
+           if (group != "variable") {
+             chart = ggplot(data = data, aes_string(x = y, y = x))
+           } else {
+             chart = ggplot(data = data, aes_string(x = y, y = "value"))
+           }
+           chart = chart +
              geom_point(aes_string(col = group, fill = group),
                         size = 3, alpha = 0.75) +
-             scale_fill_manual(values = col_pallete) +
-             scale_color_manual(values = col_pallete) +
              coord_flip() + xlab(y_lab) + ylab(x_lab) +
              theme(axis.text.x = element_text(hjust=0.5))
+           if (group != "variable") {
+              chart = chart + 
+                scale_fill_manual(values = col_pallete) +
+                scale_color_manual(values = col_pallete)
+           } else {
+             chart = chart + 
+               scale_fill_manual(labels = legend_lab,
+                                 values = col_pallete) +
+               scale_color_manual(labels = legend_lab,
+                                  values = col_pallete)
+           }
            if (length(levels(data[, group])) == 1) {
              chart = chart + theme(legend.position = "none")
            }

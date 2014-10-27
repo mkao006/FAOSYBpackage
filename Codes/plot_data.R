@@ -84,18 +84,31 @@ plot_data = function(x, y, group, subset, type, data,
          },
          "top_dot" = {
            data[, x] = data[, x] * scale
-           complete_data = na.omit(subset(data, subset = eval(subset),
-                                          select = c(x, y, group)))
-           top_maxYear = subset(complete_data, 
-                                subset = complete_data[, group] == 
-                                  max(complete_data[, group]))
-           top_maxYear = head(arrange(top_maxYear, 
-                                      desc(top_maxYear[, x])), n = nCnty)
-           new_data = subset(complete_data, subset = complete_data[, y] %in% 
-                               top_maxYear[, y])
-           new_data[, y] = factor(new_data[, y],
-                                  levels = rev(top_maxYear[, y]))
-           new_data[, group] = factor(new_data[, group])
+           if (!is.null(group)) {
+             complete_data = na.omit(subset(data, subset = eval(subset),
+                                            select = c(x, y, group)))
+             top_maxYear = subset(complete_data, 
+                                  subset = complete_data[, group] == 
+                                    max(complete_data[, group]))
+             top_maxYear = head(arrange(top_maxYear, 
+                                        desc(top_maxYear[, x])), n = nCnty)
+             new_data = subset(complete_data, subset = complete_data[, y] %in% 
+                                 top_maxYear[, y])
+             new_data[, y] = factor(new_data[, y],
+                                    levels = rev(top_maxYear[, y]))
+             new_data[, group] = factor(new_data[, group])
+           } else {
+             complete_data = na.omit(subset(data, subset = eval(subset),
+                                            select = c(x, y, "Year", "Area")))
+             top_maxYear = head(arrange(complete_data, 
+                                        desc(complete_data[, x[1]])), n = nCnty)
+             top_maxYear[, y] = factor(top_maxYear[, y],
+                                       levels = rev(top_maxYear[, y]))
+             new_data = melt(subset(top_maxYear, subset = eval(subset)),
+                             id.var = c(y, "Year", "Area"))
+             assign("group", "variable", envir = env)
+           }
+
          },
          "bot_dot" = {
            data[, x] = data[, x] * scale
